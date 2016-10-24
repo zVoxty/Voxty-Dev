@@ -6,21 +6,19 @@ using namespace std;
 
 int secvenceExist(string mainSecv, string searchSecv) {
 	int numberOfAparitions = 0;
-	bool exist;
-	int range1 = mainSecv.length() - searchSecv.length();
-	for (int i = 0; i <= range1; i++) {
-		exist = true;
-		int range2 = i + searchSecv.length() - 1;
-		for (int j = i; j <= range2; j++) {
-			if (mainSecv[j] != searchSecv[j - i]) {
-				exist = !exist;
-				break;
+	char firstChar = searchSecv[0];
+	for (int i = 0; i < mainSecv.length(); i++) {
+		if (mainSecv[i] == firstChar) {
+			int index = i;
+			for (int j = 0; j < searchSecv.length(); j++) {
+				if (mainSecv[index] == searchSecv[j]) {
+					index++;
+					if (j+1 == searchSecv.length()) {
+						numberOfAparitions++;
+					}
+				}
 			}
 		}
-		if (exist) {
-			numberOfAparitions++;
-		}
-
 	}
 	return numberOfAparitions;
 }
