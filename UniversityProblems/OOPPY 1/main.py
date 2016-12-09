@@ -5,8 +5,8 @@ from turtle import *
 if __name__ == "__main__":
 
     #- Crearea poligonului
-    polygon = []
-    GetInfo(polygon)
+    polygon = [[1,1], [4, 4], [9,9],[2,10]]
+    #GetInfo(polygon)
     print("Crearea Poligonului solved !\n")
     os.system("pause")
 
@@ -50,7 +50,9 @@ if __name__ == "__main__":
     os.system("pause")
 
     #- Determinarea daca poligonul este convex;
-    #MISS
+    print("Polygon convexity = ", checkConvexity(polygon))
+    print("Polygon convexity solved ! \n")
+    os.system("pause")
 
     #- Compararea poligoanelor in rapor cu aria lor;
     print(ComparePolygons(polygon, rectangle))
