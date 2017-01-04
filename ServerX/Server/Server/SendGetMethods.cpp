@@ -75,3 +75,15 @@ bool Server::GetString(int ID, std::string & _string)
 
 	return true;//Return true if we were successful in retrieving the string
 }
+
+void Server::SendCustomString_Packet(int ID, std::string & _string, PacketType _packettype) {
+	const int packetsize = sizeof(int32_t) * 2 + _string.size() * sizeof(char); //Calculate total size of buffer for packet contents
+	char * buffer = new char[packetsize]; //Create buffer big enough to hold all info for message
+	int32_t packettype = htonl((int32_t)_packettype); //Convert packet type (int32_t) to network byte order
+	int32_t messagesize = htonl(_string.size()); //Convert message size (int32_t) to network byte order
+	memcpy(buffer, &packettype, sizeof(int32_t)); //Copy Packet Type to first 4 bytes of buffer
+	memcpy(buffer + sizeof(int32_t), &messagesize, sizeof(int32_t)); //Copy size to next 4 bytes of buffer
+	memcpy(buffer + sizeof(int32_t) * 2, _string.c_str(), _string.size() * sizeof(char)); //Copy message to fill the rest of the buffer
+	Packet p(buffer, packetsize); //Create packet to be returned
+	connections[ID]->pm.Append(p);
+}

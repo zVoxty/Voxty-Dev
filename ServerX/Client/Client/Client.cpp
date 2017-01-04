@@ -22,7 +22,7 @@ Client::Client(std::string IP, int PORT)
 	clientptr = this; //Update ptr to the client which will be used by our client thread
 	userName = "Guest";
 	canSendMessages = true;
-	clientVersion = "1.1";
+	clientVersion = "1.0";
 }
 
 bool Client::ProcessPacket(PacketType _packettype)
@@ -83,10 +83,15 @@ bool Client::ProcessPacket(PacketType _packettype)
 	case PacketType::ServerVersionNOk: {
 		MessageBoxA(NULL, "Old client version ! Updating client !", "Info", MB_OK | MB_ICONEXCLAMATION);
 		UpdateClient();
-		sessionActive = false;
 		break;
 	}
+	case PacketType::ServerVersion: {
 
+		if (!GetString(serverVersion)) //Get the chat message and store it in variable: Message
+			return false; //If we do not properly get the chat message, return false
+
+		break;
+	}
 	default: //If packet type is not accounted for
 		std::cout << "Unrecognized packet: " << (int32_t)_packettype << std::endl; //Display that packet was not found
 		break;
@@ -130,27 +135,16 @@ bool Client::SetUsername(std::string & _string) {
 	return true;
 }
 
-bool Client::CheckClientVersion(std::string & _clientVersion){
+bool Client::UpdateClient() {
+	if (serverVersion != clientVersion) {
+		std::string file = "Client" + serverVersion + ".exe";
+		remove(file.c_str());
+		if (!RequestFile(file))
+			return false;
 
-	int32_t bufferlength = _clientVersion.size();
-
-	if (!SendPacketType(PacketType::ServerVersion)) {
-		return false;
+		return true;
 	}
-
-	if (!SendInt32_t(bufferlength))
-		return false;
-
-	if (!sendall((char*)_clientVersion.c_str(), bufferlength)) //Try to send string buffer... If buffer fails to send,
-		return false; //Return false: Failed to send string buffer
-
-	return true;
-}
-
-void Client::UpdateClient() {
-	remove("Client1.2.exe");
-	std::string file = "Client1.2.exe";
-	RequestFile(file);
+	return false;
 }
 
 void Client::ClientThread()
@@ -179,17 +173,21 @@ void Client::ClientThread()
 bool Client::Connect()
 {
 	Connection = socket(AF_INET, SOCK_STREAM, NULL); //Set Connection socket
-
+	
 	if (connect(Connection, (SOCKADDR*)&addr, sizeofaddr) != 0) //If we are unable to connect...
 	{
 		MessageBoxA(NULL, "Failed to Connect", "Error", MB_OK | MB_ICONERROR);
 		return false;
 	}
 
+	if (!SendPacketType(PacketType::ServerVersion)) {
+		MessageBoxA(NULL, "Cannot get server version !", "Error", MB_OK | MB_ICONERROR);
+		return false;
+	}
+
 	system("CLS");
 	std::cout << "\n\t\tConnected succesfully!" << std::endl;
 	sessionActive = true;
-	Sleep(1000);
 	CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)ClientThread, NULL, NULL, NULL); //Create the client thread that will receive any data that the server sends.
 
 	return true;

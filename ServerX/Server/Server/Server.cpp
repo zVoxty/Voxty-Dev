@@ -34,7 +34,7 @@ Server::Server(int PORT, bool BroadcastPublically) //Port = port to broadcast on
 	serverptr = this;
 	CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)PacketSenderThread, NULL, NULL, NULL); //Create thread that will manage all outgoing packets
 
-	serverVersion = "1.1";
+	serverVersion = "1.4";
 }
 
 bool Server::ListenForNewConnection()
@@ -68,6 +68,7 @@ bool Server::ListenForNewConnection()
 			std::shared_ptr<Connection> newConnection(new Connection(newConnectionSocket));
 			connections.push_back(newConnection); //push new connection into vector of connections
 		}
+
 		std::cout << "Client Connected! ID:" << NewConnectionID << std::endl;
 		CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)ClientHandlerThread, (LPVOID)(NewConnectionID), NULL, NULL); //Create Thread to handle this client. The index in the socket array for this thread is the value (i).
 		return true;
@@ -163,19 +164,18 @@ bool Server::ProcessPacket(int ID, PacketType _packettype)
 	}
 
 	case PacketType::ServerVersion: {
-		std::string recevive;
-		bool isOk = true;
 
-		if (!GetString(ID, recevive))
-			return false;
+		//const int packetsize = sizeof(int32_t) * 2 + serverVersion.size() * sizeof(char); //Calculate total size of buffer for packet contents
+		//char * buffer = new char[packetsize]; //Create buffer big enough to hold all info for message
+		//int32_t packettype = htonl((int32_t)PacketType::ServerVersion); //Convert packet type (int32_t) to network byte order
+		//int32_t messagesize = htonl(serverVersion.size()); //Convert message size (int32_t) to network byte order
+		//memcpy(buffer, &packettype, sizeof(int32_t)); //Copy Packet Type to first 4 bytes of buffer
+		//memcpy(buffer + sizeof(int32_t), &messagesize, sizeof(int32_t)); //Copy size to next 4 bytes of buffer
+		//memcpy(buffer + sizeof(int32_t) * 2, serverVersion.c_str(), serverVersion.size() * sizeof(char)); //Copy message to fill the rest of the buffer
+		//Packet p(buffer, packetsize); //Create packet to be returned
+		//connections[ID]->pm.Append(p);
 
-		if (serverVersion != recevive)
-			isOk = false;
-
-		if (!isOk) {
-			PacketType packettype(PacketType::ServerVersionNOk);
-			connections[ID]->pm.Append(packettype);
-		}
+		SendCustomString_Packet(ID, serverVersion, PacketType::ServerVersion);
 
 		break;
 	}

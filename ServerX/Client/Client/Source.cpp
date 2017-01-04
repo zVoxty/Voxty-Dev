@@ -16,7 +16,7 @@ int main()
 {
 	SetConsoleTitle(TEXT("Lobby"));
 	SetConsoleColors(0x0031 | 0x07 | FOREGROUND_INTENSITY);
-	//allColours();
+
 	cout << "\n\t\t Connecting to server . . . \n";
 	Client myClient("86.127.10.163", 1111);
 
@@ -24,14 +24,16 @@ int main()
 		myClient.RetryConnection();
 		main();
 	}
-	
-	while (myClient.sessionActive) {
-		if (!myClient.CheckClientVersion(myClient.clientVersion)) {
-			MessageBoxA(NULL, "Cannot get server version !", "Error", MB_OK | MB_ICONEXCLAMATION);
-		}
 
+	while (myClient.sessionActive) {
+		
 		system("CLS");
-		cout << "Version " << myClient.clientVersion;
+
+		if (myClient.UpdateClient())
+			MessageBoxA(NULL, "Updating client !", "Error", MB_OK | MB_ICONEXCLAMATION);
+	
+		cout << "Server version " << myClient.serverVersion << std::endl;
+		cout << "Version " << myClient.clientVersion << std::endl;
 		cout << "\n\n\t\t Lobby\n\n";
 		cout << "\t\t1)Join chat\n";
 		cout << "\t\t2)Exit\n\n";
@@ -82,7 +84,5 @@ int main()
 			break;
 		}
 	}
-
-	system("PAUSE");
 }
 

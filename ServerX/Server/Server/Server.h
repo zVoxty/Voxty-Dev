@@ -44,6 +44,7 @@ private:
 	bool GetPacketType(int ID, PacketType & _packettype);
 
 	void SendString(int ID, std::string & _string);
+	void SendCustomString_Packet(int ID, std::string & _string, PacketType _packettype);
 	bool GetString(int ID, std::string & _string);
 
 	bool ProcessPacket(int ID, PacketType _packettype);

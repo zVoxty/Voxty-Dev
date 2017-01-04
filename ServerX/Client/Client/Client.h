@@ -20,8 +20,7 @@ public: //Public functions
 	bool SetUsername(std::string & _string);
 	bool CloseConnection();
 	bool RequestFile(std::string FileName);
-	bool CheckClientVersion(std::string & _clientVersion);
-	void UpdateClient();
+	bool UpdateClient();
 
 public:
 	bool sessionActive;
