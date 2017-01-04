@@ -160,6 +160,7 @@
     <ClInclude Include="PacketStructs.h" />
     <ClInclude Include="PacketType.h" />
     <ClInclude Include="Server.h" />
+    <ClInclude Include="TestTime.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

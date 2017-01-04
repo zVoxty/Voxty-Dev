@@ -1,7 +1,7 @@
 #include "PacketManager.h"
 
 bool PacketManager::HasPendingPackets() {
-	return (queue_packets.size() > 0);
+	return (queue_packets.size() > 0); //Return true if there are packets
 }
 
 void PacketManager::Append(Packet p) {

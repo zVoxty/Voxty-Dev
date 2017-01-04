@@ -6,10 +6,10 @@ enum class PacketType
 	FileTransfer_EndOfFile, // Sent for when file transfer is complete
 	FileTransferByteBuffer, // Send Before sendint a byte buffer for file transfer
 	FileTransferRequestNextBuffer, // Send to request the next byte buffer for file
-	BanChat,
-	CanSetUsername,
-	CantSetUsername,
-	ServerVersion,
-	ServerVersionNOk,
-	SetUsername
+	BanChat, // Ban user from chat
+	CanSetUsername, // Return can set username
+	CantSetUsername, // Return can't set username 
+	ServerCurrentVersion, // Send server current version
+   	ServerLastVersion, // Send server last version
+	SetUsername // Try to set username received from user
 };

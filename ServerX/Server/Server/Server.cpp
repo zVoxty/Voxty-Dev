@@ -34,7 +34,8 @@ Server::Server(int PORT, bool BroadcastPublically) //Port = port to broadcast on
 	serverptr = this;
 	CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)PacketSenderThread, NULL, NULL, NULL); //Create thread that will manage all outgoing packets
 
-	serverVersion = "1.4";
+	serverVersion = "1.0.0.0";
+	serverLastVersion = "";
 }
 
 bool Server::ListenForNewConnection()
@@ -122,6 +123,7 @@ bool Server::ProcessPacket(int ID, PacketType _packettype)
 
 		if (!HandleSendFile(ID)) //Attempt to send byte buffer from file. If failure...
 			return false;
+
 		break;
 	}
 	case PacketType::FileTransferRequestNextBuffer:
@@ -130,9 +132,10 @@ bool Server::ProcessPacket(int ID, PacketType _packettype)
 			return false;
 		break;
 	}
-
+	
 	case PacketType::SetUsername:
 	{	
+		Start();
 		std::string recevive;
 		bool canSet = true;
 
@@ -150,7 +153,7 @@ bool Server::ProcessPacket(int ID, PacketType _packettype)
 			PacketType packettype(PacketType::CanSetUsername);
 			connections[ID]->pm.Append(packettype);
 			connections[ID]->connectionName = recevive;
-			std::cout << "User ID" << ID << " set his username to " << recevive << " . \n";
+			std::cout << "User ID" << ID << " set his username to " << recevive << " in ";
 		}
 		else {
 			PacketType packettype(PacketType::CantSetUsername);
@@ -159,23 +162,22 @@ bool Server::ProcessPacket(int ID, PacketType _packettype)
 			std::string user = "Guest" + std::to_string(ID);
 			connections[ID]->connectionName = user;
 		}
+		Stop();
+		std::cout << GetMsElapsedAsDouble() << std::endl << std::endl;
+		break;
+	}
+	
+
+	case PacketType::ServerCurrentVersion: {
+
+		SendCustomString_Packet(ID, serverVersion, PacketType::ServerCurrentVersion);
 
 		break;
 	}
 
-	case PacketType::ServerVersion: {
+	case PacketType::ServerLastVersion: {
 
-		//const int packetsize = sizeof(int32_t) * 2 + serverVersion.size() * sizeof(char); //Calculate total size of buffer for packet contents
-		//char * buffer = new char[packetsize]; //Create buffer big enough to hold all info for message
-		//int32_t packettype = htonl((int32_t)PacketType::ServerVersion); //Convert packet type (int32_t) to network byte order
-		//int32_t messagesize = htonl(serverVersion.size()); //Convert message size (int32_t) to network byte order
-		//memcpy(buffer, &packettype, sizeof(int32_t)); //Copy Packet Type to first 4 bytes of buffer
-		//memcpy(buffer + sizeof(int32_t), &messagesize, sizeof(int32_t)); //Copy size to next 4 bytes of buffer
-		//memcpy(buffer + sizeof(int32_t) * 2, serverVersion.c_str(), serverVersion.size() * sizeof(char)); //Copy message to fill the rest of the buffer
-		//Packet p(buffer, packetsize); //Create packet to be returned
-		//connections[ID]->pm.Append(p);
-
-		SendCustomString_Packet(ID, serverVersion, PacketType::ServerVersion);
+		SendCustomString_Packet(ID, serverLastVersion, PacketType::ServerLastVersion);
 
 		break;
 	}
@@ -195,6 +197,7 @@ bool Server::HandleSendFile(int ID)
 		return true;
 
 	connections[ID]->file.remainingBytes = connections[ID]->file.fileSize - connections[ID]->file.fileOffset; //calculate remaining bytes
+
 	if (connections[ID]->file.remainingBytes > connections[ID]->file.buffersize) //if remaining bytes > max byte buffer
 	{
 		PS::FileDataBuffer fileData; //Create FileDataBuffer packet structure

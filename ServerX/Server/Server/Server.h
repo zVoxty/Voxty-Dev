@@ -7,6 +7,10 @@
 #include "FileTransferData.h"
 #include "PacketManager.h"
 #include "PacketStructs.h"
+#include <chrono>
+#include <ctime>
+#include <string>
+#include <sstream>
 #include <vector> //for std::vector
 
 class Connection
@@ -33,7 +37,7 @@ class Server
 public:
 	Server(int PORT, bool BroadcastPublically = false);
 	bool ListenForNewConnection();
-	std::string serverVersion;
+	
 
 private:
 
@@ -59,9 +63,47 @@ private:
 	std::mutex connectionMgr_mutex; //mutex for managing connections (used when a client disconnects)
 	int UnusedConnections = 0; //# of Inactive Connection Objects that can be reused
 
+	std::string serverVersion;
+	std::string serverLastVersion;
+
 	SOCKADDR_IN addr; //Address that we will bind our listening socket to
 	int addrlen = sizeof(addr);
 	SOCKET sListen;
+
+private: //Variables and functions to check runtime
+	std::clock_t c_start = std::clock();
+	std::chrono::time_point<std::chrono::steady_clock> t_start;
+	std::chrono::time_point<std::chrono::steady_clock> t_end;
+	std::string stringify(double x)
+	{
+		std::ostringstream o;
+		if (!(o << x))
+		{
+			return "INVALID CONVERSION";
+		}
+		return o.str();
+	}
+
+	void Start()
+	{
+		t_start = std::chrono::high_resolution_clock::now();
+	}
+	void Stop()
+	{
+		t_end = std::chrono::high_resolution_clock::now();
+	}
+	std::string GetMsElapsedAsString()
+	{
+		std::string timestring;
+		double msElapsed = std::chrono::duration<double, std::milli>(t_end - t_start).count();
+		timestring = stringify(msElapsed);
+		return timestring;
+	}
+	double GetMsElapsedAsDouble()
+	{
+		double msElapsed = std::chrono::duration<double, std::milli>(t_end - t_start).count();
+		return msElapsed;
+	}
 };
 
 static Server * serverptr; //Serverptr is necessary so the static ClientHandler method can access the server instance/functions.

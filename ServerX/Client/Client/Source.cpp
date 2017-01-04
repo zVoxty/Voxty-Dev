@@ -14,75 +14,18 @@ VOID WINAPI SetConsoleColors(WORD attribs) {
 
 int main()
 {
-	SetConsoleTitle(TEXT("Lobby"));
 	SetConsoleColors(0x0031 | 0x07 | FOREGROUND_INTENSITY);
 
-	cout << "\n\t\t Connecting to server . . . \n";
-	Client myClient("86.127.10.163", 1111);
+	try {
+		cout << "\n\t\t Connecting to server . . . \n";
+		Client myClient("86.127.10.163", 1111);
 
-	if (!myClient.Connect()) {
-		myClient.RetryConnection();
-		main();
+		myClient.Connect(); // Try to connect the client
+		myClient.Lobby();
+
 	}
-
-	while (myClient.sessionActive) {
-		
-		system("CLS");
-
-		if (myClient.UpdateClient())
-			MessageBoxA(NULL, "Updating client !", "Error", MB_OK | MB_ICONEXCLAMATION);
-	
-		cout << "Server version " << myClient.serverVersion << std::endl;
-		cout << "Version " << myClient.clientVersion << std::endl;
-		cout << "\n\n\t\t Lobby\n\n";
-		cout << "\t\t1)Join chat\n";
-		cout << "\t\t2)Exit\n\n";
-		cout << "\t\tYour option : ";
-
-		int option;
-		cin >> option;
-
-		switch (option)
-		{
-		case 1: {
-			system("CLS");
-			cout << "\n\n\t\tWelcome to chat (type lobby to get back)!\n\n";
-			string username;
-			if (myClient.userName == "Guest") {
-				cout << "\n\n\t\t Set your username :";
-				
-				cin >> username;
-				
-				if (!myClient.SetUsername(username)) {
-					MessageBoxA(NULL, "Can't set this username", "Error", MB_OK | MB_ICONEXCLAMATION);
-					break;
-				}
-			}
-
-			myClient.userName = username;
-
-			std::string userInput;
-			while (myClient.canSendMessages) {
-				getline(cin, userInput);
-				if (userInput == "lobby")
-					break;
-				if(userInput != ""){
-					if (!myClient.SendString(userInput))
-						break;
-				}
-				Sleep(10);
-			}
-
-			break;
-		}
-		case 2:
-			myClient.sessionActive = false;
-			myClient.CloseConnection();
-			break;
-		default:
-			MessageBoxA(NULL, "Invalid option !", "Error", MB_OK | MB_ICONINFORMATION);
-			break;
-		}
+	catch (const char * msg) {
+		MessageBoxA(NULL, msg, "Error", MB_OK | MB_ICONERROR);
 	}
 }
 

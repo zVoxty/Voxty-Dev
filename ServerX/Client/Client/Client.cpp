@@ -7,9 +7,9 @@ Client::Client(std::string IP, int PORT)
 
 	WORD DllVersion = MAKEWORD(2, 1);
 
-	if (WSAStartup(DllVersion, &wsaData) != 0)
+	if (WSAStartup(DllVersion, &wsaData) != 0) 
 	{
-		MessageBoxA(NULL, "Winsock startup failed", "Error", MB_OK | MB_ICONERROR);
+		throw("Winsock startup failed");
 		exit(0);
 	}
 
@@ -20,15 +20,23 @@ Client::Client(std::string IP, int PORT)
 	addr.sin_family = AF_INET; //IPv4 Socket
 
 	clientptr = this; //Update ptr to the client which will be used by our client thread
-	userName = "Guest";
-	canSendMessages = true;
-	clientVersion = "1.0";
+
+	userName = ""; // Set username to null
+
+	canSendMessages = true; // User can send messages
+
+	clientVersion = "1.0.0.0"; // Current client version
+
+	SetConsoleTitle(TEXT("xPress 1.0.0.0")); // Set console title
+
+	getFile = false;
 }
 
-bool Client::ProcessPacket(PacketType _packettype)
+bool Client::ProcessPacket(PacketType _packettype) // Function used to process an received packet from server
 {
 	switch (_packettype)
 	{
+
 	case PacketType::ChatMessage: //If packet is a chat message packet
 	{
 		std::string Message; //string to store our message we received
@@ -39,8 +47,9 @@ bool Client::ProcessPacket(PacketType _packettype)
 		std::cout << Message << std::endl; //Display the message to the user
 		break;
 	}
-	case PacketType::FileTransferByteBuffer: {
-		int32_t buffersize;
+
+	case PacketType::FileTransferByteBuffer: { //If packet is an file transfer
+		int32_t buffersize; // Declare buffersize
 
 		if (!GetInt32_t(buffersize))
 			return false;
@@ -58,14 +67,18 @@ bool Client::ProcessPacket(PacketType _packettype)
 
 		break;
 	}
-	case PacketType::FileTransfer_EndOfFile: {
+
+	case PacketType::FileTransfer_EndOfFile: { // This packet is received when and of file is reached 
 		
 		std::cout << "File transfer completed. File received \n";
 		std::cout << "File Name: " << file.fileName << std::endl;
 		std::cout << "File Size(bytes) : " << file.bytesWritten << std::endl;
 
+		getFile = true;
+
 		file.bytesWritten = 0;
 		file.outFileStream.close();
+
 		break;
 	}
 
@@ -76,20 +89,19 @@ bool Client::ProcessPacket(PacketType _packettype)
 
 	case PacketType::CantSetUsername: {
 		MessageBoxA(NULL, "Username already exist !", "Info", MB_OK | MB_ICONEXCLAMATION);
-		userName = "Guest";
+		userName = "";
 		break;
 	}
 
-	case PacketType::ServerVersionNOk: {
-		MessageBoxA(NULL, "Old client version ! Updating client !", "Info", MB_OK | MB_ICONEXCLAMATION);
-		UpdateClient();
-		break;
-	}
-	case PacketType::ServerVersion: {
-
+	case PacketType::ServerCurrentVersion: {
 		if (!GetString(serverVersion)) //Get the chat message and store it in variable: Message
 			return false; //If we do not properly get the chat message, return false
+		break;
+	}
 
+	case PacketType::ServerLastVersion: {
+		if (!GetString(serverLastVersion)) //Get the chat message and store it in variable: Message
+			return false; //If we do not properly get the chat message, return false
 		break;
 	}
 	default: //If packet type is not accounted for
@@ -97,7 +109,7 @@ bool Client::ProcessPacket(PacketType _packettype)
 		break;
 	}
 	return true;
-}
+}  
 
 bool Client::RequestFile(std::string FileName) {
 	file.outFileStream.open(FileName, std::ios::binary);
@@ -115,7 +127,11 @@ bool Client::RequestFile(std::string FileName) {
 
 	if (!SendString(FileName, false))
 		return false;
-	
+
+	while (getFile == false) {
+		Sleep(100);
+	}
+
 	return true;
 }
 
@@ -135,16 +151,11 @@ bool Client::SetUsername(std::string & _string) {
 	return true;
 }
 
-bool Client::UpdateClient() {
-	if (serverVersion != clientVersion) {
-		std::string file = "Client" + serverVersion + ".exe";
-		remove(file.c_str());
-		if (!RequestFile(file))
-			return false;
-
-		return true;
-	}
-	return false;
+void Client::UpdateClient() {
+	
+	std::string file = "Client_" + serverVersion + ".exe";
+	remove(file.c_str());
+	RequestFile(file);
 }
 
 void Client::ClientThread()
@@ -170,27 +181,118 @@ void Client::ClientThread()
 
 }
 
+void Client::VerifyVersions() {
+	int x = 0;
+	while (serverVersion == "" || serverLastVersion == "") {
+		system("CLS");
+		std::cout << "\nWaiting for server answer !\n";
+		Sleep(50);
+		x++;
+		if (x == 200)
+			throw("Server don't answer in expected time !");
+	}
+
+	if (serverVersion != clientVersion) {
+		MessageBoxA(NULL, "Your client will be updated", "Error", MB_OK | MB_ICONINFORMATION);
+		UpdateClient();	
+		std::string file = "start Client_" + serverVersion + ".exe";
+		system(file.c_str());
+		getFile = false;
+		MessageBoxA(NULL, "Client updated !", "Error", MB_OK | MB_ICONINFORMATION);
+		exit(0);
+	}
+	else {
+		std::string file = "Client_" + serverLastVersion + ".exe";
+		remove(file.c_str());
+	}
+}
+
 bool Client::Connect()
 {
 	Connection = socket(AF_INET, SOCK_STREAM, NULL); //Set Connection socket
 	
 	if (connect(Connection, (SOCKADDR*)&addr, sizeofaddr) != 0) //If we are unable to connect...
 	{
-		MessageBoxA(NULL, "Failed to Connect", "Error", MB_OK | MB_ICONERROR);
+		throw("Failed to Connect");
 		return false;
 	}
 
-	if (!SendPacketType(PacketType::ServerVersion)) {
-		MessageBoxA(NULL, "Cannot get server version !", "Error", MB_OK | MB_ICONERROR);
+	CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)ClientThread, NULL, NULL, NULL); //Create the client thread that will receive any data that the server sends.
+
+	if (!SendPacketType(PacketType::ServerCurrentVersion)) {
+		throw("Cannot get server version !");
 		return false;
 	}
+
+	if (!SendPacketType(PacketType::ServerLastVersion)) {
+		throw("Cannot get last server version !");
+		return false;
+	}
+
+	VerifyVersions();
 
 	system("CLS");
 	std::cout << "\n\t\tConnected succesfully!" << std::endl;
 	sessionActive = true;
-	CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)ClientThread, NULL, NULL, NULL); //Create the client thread that will receive any data that the server sends.
-
 	return true;
+}
+
+void Client::Lobby() {
+
+	while (sessionActive) {
+		system("CLS");
+		std::cout << "\n\n\t\tWelcome to lobby !\n\n";
+		std::cout << "\t1)Join Chat \n";
+		std::cout << "\t2)Exit\n";
+		std::cout << "  \tYourOption : ";
+		int userOption;
+
+		std::cin >> userOption;
+
+		switch (userOption)
+		{
+		case 1: {
+			system("CLS");
+			std::cout << "\n\n\t\tWelcome to chat (type lobby to get back)!\n\n";
+
+			std::string username;
+			if (userName == "") {
+				std::cout << "\n\n\t\t Set your username :";
+
+				std::cin >> username;
+
+				if (!SetUsername(username)) {
+					MessageBoxA(NULL, "Can't set this username", "Error", MB_OK | MB_ICONEXCLAMATION);
+					Lobby();
+					break;
+				}
+			}
+
+			userName = username;
+
+			std::string userInput;
+			while (canSendMessages) {
+				std::getline(std::cin, userInput);
+				if (userInput == "lobby")
+					break;
+				if (userInput != "") {
+					if (!SendString(userInput))
+						break;
+				}
+				Sleep(10);
+			}
+
+			break;
+		}
+		case 2:
+			sessionActive = false;
+			CloseConnection();
+			break;
+		default:
+			MessageBoxA(NULL, "Invalid option !", "Error", MB_OK | MB_ICONINFORMATION);
+			break;
+		}
+	}
 }
 
 void Client::RetryConnection() {
