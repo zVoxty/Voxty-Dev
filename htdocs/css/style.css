@@ -1,0 +1,578 @@
+body{
+    margin: 0;
+    font-family: cursive;
+    background-image: url(../images/header.jpg);
+}
+
+body #wrapper{
+    height: 100%;
+    width: 100%;
+}
+
+div,ul {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-weight: inherit;
+    font-style: inherit;
+    font-size: 100%;
+    font-family: inherit;
+    vertical-align: baseline;
+    list-style: none;
+}
+
+input:focus{
+    box-shadow: 0px 0px 10px white;
+    border: none;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+a {
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.currentPage{
+    box-shadow: 0px 0px 10px white;
+    border-radius: 20px;
+    padding: 0px 5px;
+    background: white;
+    color: black;
+}
+
+.totalNumberOfMods{
+    font-size: smaller;
+    color: white;
+    float: right;
+    background: black;
+    border: 1px solid red;
+    border-radius: 20px;
+    padding-left: 6px;
+    padding-right: 6px;
+}
+
+.mainColor{
+    text-align: center;
+    color: green;
+}
+
+.fatalError{
+    text-align: center;
+    color: white;
+    box-shadow: 0px 0px 10px white;
+    border-radius: 10px;
+}
+
+.fatalErrorColor{
+    background: green;
+    display: inline-block;
+    border-radius: 30px;
+    padding: 20px;
+    margin-top: 10px;
+}
+
+.detailModTitle{
+    color: white;
+    display: inline-block;
+    padding: 0px 15px;
+    border-radius: 30px;
+}
+
+.detailsPage{
+    text-align: center;
+    color: white;
+}
+
+.uploadMod{
+    box-shadow: 0px 0px 10px white;
+    border-radius: 10px;
+}
+
+.pureA{
+    color: black;
+}
+
+.activeX{
+    background-color: green;
+    font-size: 30px;
+}
+
+#header{
+    background-image: url(../images/header.jpg);
+    max-height: 90px;
+    background-position-y: 300px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+#header #topNavigationBar{
+    position: relative;
+    width: 100%;
+    text-align: center;
+}
+
+#header #topNavigationBar ul{
+    font-size: 135%;
+    display: inline-flex;
+    margin-top: 5px;
+}
+
+#header #topNavigationBar ul li{
+    margin-top: 10px;
+    padding-left: 10px;
+    margin-bottom: 13px;
+}
+
+#header #topNavigationBar ul li a{
+    padding: 0 8px;
+    line-height: 18px;
+    border: 2px solid green;
+    color: white;
+    font-family: 'daxlinepro-light';
+    -webkit-border-radius: 18px;
+    -moz-border-radius: 18px;
+    border-radius: 19px;
+}
+
+#header #topNavigationBar ul li a:hover {
+    border: 2px solid green;
+    background: green;
+    font-size: 25px;
+}
+
+#carousel{
+    margin: 0 20px;
+    margin-bottom: 10px;
+}
+
+#carouselContainer{
+    height: 100%;
+    width: 90%;
+    margin-left: 5%;
+    text-align: center;
+    background-image: url(../images/header.jpg);
+}
+
+.carousel-inner > .item > img,
+.carousel-inner > .item > a > img {
+    width: 20%;
+    margin: auto;
+}
+
+.carouselInfos{
+    background: black;
+    padding: 0px 8px;
+    border-radius: 20px;
+}
+
+#container{
+    padding: 0 50px;
+    background-image: url(../images/background.jpg);
+    background-size: cover;
+    display: flex;
+}
+
+.carouselElement{
+    height: 100%;
+    width: 24%;
+    display: inline-block;
+    padding: 0px 10px;
+    opacity: 0.7;
+}
+
+.carouselElement:hover{
+    opacity: 1;
+    color: white;
+}
+
+.carouselElement #elementContainer{
+    height: 100%;
+    width: 100%;
+    background: green;
+}
+
+.carouselElement #elementContainer #elementName{
+    position: relative;
+    top: -20px;
+    font-size: smaller;
+}
+
+.carouselElement #elementContainer #elementDownloads{
+    position: relative;
+    top: -60px;
+}
+
+#container #content #contentCategory{
+    background: rgba(16, 16, 16, 0.61);
+    color: white;
+    padding: 20px;
+}
+
+#searchMod{
+    float: right;
+    color: black;
+    background: none;
+    padding: 3px 10px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+#container #content #mainContent{
+    background-color: rgba(0, 0, 0, 0.89);
+    padding: 20px;
+    box-shadow: 0px -9px 41px black;
+}
+
+#container #content #mainContent #pagination{
+    height: 130px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+#container #content #mainContent #pagination #textPage{
+    font-size: xx-large;
+    color: white;
+    margin-bottom: 15px;
+} 
+
+#container #content #mainContent #pagination #paginationContent{
+    font-size: large;
+    color: white;
+    margin-bottom: 15px;
+} 
+
+#rightSideBar{
+    max-width: 190px;
+    width: 190px;
+}
+
+#rightSideBar #topInfo{
+    padding: 20px;
+    background: green;
+    text-align: center;
+    color: white;
+}
+
+#rightSideBar #rightContent{
+    padding: 15px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.69);
+    color: white;
+}
+
+
+
+@media screen and (max-width: 2500px) and (min-width: 1900px){
+    #container #content{
+        min-height: 20%;
+        max-width: 74%;
+        width: 73%;
+    }
+    .carousel-inner {
+        position: relative;
+        width: 100%;
+        height: 250px;
+        overflow: hidden;
+    }
+    .carouselElement{
+    	font-size: 15px;
+    }
+    #container #content #mainContent #mod{
+    background: white;
+    height: 240px;
+    width: 309px;
+    margin-left: 5px;
+    margin-top: 5px;
+    display: inline-block;
+    box-shadow: 0px 0px 10px white;
+    padding-top: 7px;
+    }
+}
+
+@media screen and (max-width: 1900px) and (min-width: 1600px){
+    #container #content{
+        min-height: 20%;
+        max-width: 74%;
+        width: 74%;
+    }
+
+    #container #content #mainContent #mod{
+    background: white;
+    height: 240px;
+    width: 309px;
+    margin-left: 5px;
+    margin-top: 5px;
+    display: inline-block;
+    box-shadow: 0px 0px 10px white;
+    padding-top: 7px;
+    }
+}
+@media screen and (max-width: 1680px) and (min-width: 1300px){
+    #container #content{
+        min-height: 20%;
+        max-width: 67%;
+        width: 67%;
+    }
+
+    #container #content #mainContent #mod{
+    background: white;
+    height: 240px;
+    width: 309px;
+    margin-left: 5px;
+    margin-top: 5px;
+    display: inline-block;
+    box-shadow: 0px 0px 10px white;
+    padding-top: 7px;
+    }
+}
+@media screen and (max-width: 1300px) and (min-width: 1050px){
+    #container #content{
+        min-height: 20%;
+        max-width: 62%;
+        width: 62%;
+    }
+
+    .carousel-inner {
+        position: relative;
+        width: 100%;
+        height: 170px;
+        overflow: hidden;
+    }
+
+    #container #content #mainContent #mod{
+    background: white;
+    height: 240px;
+    width: 330px;
+    margin-left: 5px;
+    margin-top: 5px;
+    display: inline-block;
+    box-shadow: 0px 0px 10px white;
+    padding-top: 7px;
+    }
+}
+@media screen and (max-width: 1050px) and (min-width: 800px) {
+    #container #content{
+        min-height: 20%;
+        max-width: 65%;
+        width: 60%;
+    }
+
+    .carousel-inner {
+        position: relative;
+        width: 100%;
+        height: 140px;
+        overflow: hidden;
+    }
+
+    #container #content #mainContent #mod{
+    background: white;
+    height: 240px;
+    width: 245px;
+    font-size: 12px;
+    margin-left: 5px;
+    margin-top: 5px;
+    display: inline-block;
+    box-shadow: 0px 0px 10px white;
+    padding-top: 7px;
+    }
+}
+@media screen and (max-width: 800px) and (min-width: 200px){
+    #container #content{
+        min-height: 20%;
+        max-width: 67%;
+        width: 67%;
+    }
+
+    #container #content #mainContent #mod{
+    background: white;
+    height: 240px;
+    width: 240px;
+    margin-left: 5px;
+    margin-top: 5px;
+    display: inline-block;
+    box-shadow: 0px 0px 10px white;
+    padding-top: 7px;
+    }
+}
+
+#container #content #mainContent #mod:hover{
+    cursor: pointer;
+    box-shadow: 0px 0px 50px black;
+}
+
+#container #content #mainContent #mod #modImage{
+    width: 96%;
+    height: 67%;
+    position: relative;
+    top: 2%;
+    left: 2%;
+}
+
+#container #content #mainContent #mod #modImage img{
+    width: 100%;
+    height: 100%;
+}
+
+#container #content #mainContent #mod #modInfo{
+    position: relative;
+    top: 2%;
+    left: 2%;
+    height: 28%;
+    width: 98%;
+    max-width: 96%;
+    max-height: 28%;
+}
+
+#container #content #mainContent #mod #modInfo #modName{
+    text-align: center;
+    overflow: hidden;
+    color: green;
+}
+
+#container #content #mainContent #mod #modInfo #modCategory{
+    text-align: center;
+    overflow: hidden;
+}
+
+#container #content #mainContent #mod #modInfo #releaseDate{
+    text-align: center;
+    overflow: hidden;
+}
+
+#container #sidebar-categoryMods{
+    max-width: 300px;
+    width: 250px;
+}
+
+#container #sidebar-categoryMods #follow{
+    padding: 20px;
+    background: green;
+    text-align: center;
+    color: white;
+}
+
+#widgetAd{
+    max-width: 100%;
+    max-height: 230px;
+}
+
+#container #sidebar-categoryMods #categoryMod-Upload{
+    padding: 15px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.69)
+}
+
+#container #sidebar-categoryMods #categoryMod-Upload a{
+    color: white;
+    padding-left: 15px;
+    padding-right: 15px;
+    background: green;
+    border-radius: 20px;
+/*    box-shadow: 0px 0px 40px green;*/
+}
+
+#container #sidebar-categoryMods #categoryMod-Upload a:hover{
+    background-color: green;
+    /*box-shadow: 0px 0px 40px green;*/
+    font-size: 16px;
+}
+
+#container #sidebar-categoryMods #navigationModCategory{
+    padding: 15px;
+    border: 2px solid white;
+    background: rgba(0, 0, 0, 0.69);
+}
+
+#container #sidebar-categoryMods #navigationModCategory #navigationModCategory-container #links ul li{
+    margin-left: 30px;
+    padding-top: 10px;
+}
+
+#container #sidebar-categoryMods #navigationModCategory #navigationModCategory-container #links li #titleModCategory{
+    padding-left: 10px;
+    padding-right: 10px;
+    border: 2px solid green;
+    border-radius: 20px;
+    background-color: green;
+}
+
+#container #sidebar-categoryMods #navigationModCategory #navigationModCategory-container #links li #titleModCategory:hover{
+    box-shadow: 0px 0px 60px green;
+    color: white;
+}
+
+#container #sidebar-categoryMods #navigationModCategory #navigationModCategory-container #links ul li a{
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 20px;
+    font-size: smaller;
+    border-bottom: 1px solid green;
+}
+
+#container #sidebar-categoryMods #navigationModCategory #navigationModCategory-container #links ul li span{
+    font-size: smaller;
+    color: white;
+    float: right;
+    background: black;
+    border: 1px solid red;
+    border-radius: 20px;
+    padding-left: 6px;
+    padding-right: 6px;
+}
+
+#container #sidebar-categoryMods #navigationModCategory #navigationModCategory-container #links ul li a:hover{
+    color: white;
+    background: green;
+    box-shadow: 0px 0px 40px green;
+}
+
+#footer{
+    background-image: url(../images/header.jpg);
+    max-height: 230px;
+    background-position-y: 300px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+#footer #footerTags{
+    padding: 10px;
+    color: white;
+    font-size: x-large;
+}
+
+#footer #footerBottom{
+    text-align: center;
+}
+
+#footer #footerBottom span{
+    margin-top: 200px;
+    background: gray;
+    color: white;
+}
+
+/*SLIDESHOW*/
+.mySlides {display:none}
+.w3-left, .w3-right, .w3-badge {cursor:pointer}
+.w3-badge {height:8px;width:13px;padding:0; box-shadow: 0px 0px 17px rgba(0, 231, 255, 0.88);}
+.w3-content{max-width:980px;margin:auto}
+.w3-display-container{position:relative}
+.w3-center{text-align:center!important}
+.w3-section{margin-top:16px!important;margin-bottom:16px!important}
+.w3-large{font-size:18px!important}
+.w3-text-white{color:rgba(0, 231, 255, 0.88)!important}
+.w3-display-bottomleft{position:absolute;left:0;bottom:0}
+.w3-left{float:left!important}
+.w3-padding-left{padding-left:16px!important}
+.w3-hover-text-khaki{-webkit-transition:background-color .3s,color .15s,box-shadow .3s,opacity 0.3s;transition:background-color .3s,color .15s,box-shadow .3s,opacity 0.3s}
+.w3-right{float:right!important}
+.w3-padding-right{padding-right:16px!important}
+.w3-badge{background-color:#000;color:#fff;display:inline-block;padding-left:8px;padding-right:8px;text-align:center}
+.w3-badge{border-radius:50%}
+.w3-border{border:1px solid #ccc!important}
+.w3-transparent{background-color:rgba(0, 231, 255, 0.88)!important}
+.w3-hover-white{-webkit-transition:background-color .3s,color .15s,box-shadow .3s,opacity 0.3s;transition:background-color .3s,color .15s,box-shadow .3s,opacity 0.3s}
+.w3-hover-white:hover{color:#000!important;background-color:white!important;box-shadow: 0px 0px 17px white;}
