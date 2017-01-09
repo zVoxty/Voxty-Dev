@@ -36,7 +36,7 @@ public:
 	}
 
 	void Print() {
-		cout << "Printing array : ";
+		cout << "Printing array : \n";
 		for (int i = 0; i < myArray.size(); i++)
 			cout << myArray[i] << " ";
 		cout << endl;
@@ -59,9 +59,41 @@ public:
 	}
 private:
 	int dimensiune;
+	int one;
+	int two;
+	int three;
+	int four;
 	int matrix[100][100];
 public:
 	int sum = 0;
+
+	friend istream& operator >> (istream & cin, Matrix & w){
+		cin >> w.dimensiune;
+		int i, j;
+		for (i = 0; i < w.dimensiune; i++) {
+			for (j = 0; j < w.dimensiune; j++) {
+				cin >> w.matrix[i][j];
+				w.sum += w.matrix[i][j];
+			}
+		}
+		return cin;
+	}
+
+	friend ostream & operator << (ostream & cout, Matrix & w) {
+		int i, j;
+		for (i = 0; i < w.dimensiune; i++) {
+			for (j = 0; j < w.dimensiune; j++) {
+				cout << w.matrix[i][j] << " ";
+			}
+			cout << endl;
+		}
+		cout << "\n\n";
+		return cout;
+	}
+
+	bool operator<(Matrix & anotherMatrix) {
+		return this->sum < anotherMatrix.sum;
+	}
 
 	void CreateMatrix() {
 		cout << "Matrix Dimension : ";
@@ -85,37 +117,3 @@ public:
 		cout << "\n\n";
 	}
 };
-
-template<> class Sort<Matrix> {
-private:
-	int dimension;
-	Matrix matrix[10];
-public:
-	void Create() {
-		cout << "Elements dimension : ";
-		cin >> dimension;
-		for (int i = 0; i < dimension; i++) {
-			matrix[i].CreateMatrix();
-		}
-	}
-
-	void Print() {
-		for (int i = 0; i < dimension; i++) {
-			matrix[i].PrintMatrix();
-		}
-	}
-
-	void SortMatrix() {
-		cout << "Matrix array sort ." << endl << endl;
-		for (int i = 0; i < dimension; i++) {
-			for (int j = i + 1; j < dimension; j++) {
-				if (matrix[i].sum > matrix[j].sum) {
-					Matrix temp = matrix[i];
-					matrix[i] = matrix[j];
-					matrix[j] = temp;
-				}
-			}
-		}
-	}
-};
-
