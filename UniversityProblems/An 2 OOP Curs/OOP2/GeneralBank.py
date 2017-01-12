@@ -5,23 +5,25 @@ class GeneralBank:
 
     aplicationOn = True
 
-    def RegisterAccount(self):
-        newClient = Client()
+    def RegisterAccount(self):   
+        newClient = Client() #Create a instance of client class
         print("\n\n\t\t Account registration")
-        rUsername = input("Insert username : ")
 
-        if(rUsername == ""):
+        rUsername = input("Insert username : ") #Get userName
+
+        if(rUsername == ""): #Username cannot be empty
             print("Cannot set empty username")
             return False;
 
-        if(len(self.Accounts) != 0):
+        if(len(self.Accounts) != 0): #Check if username exist
             for i in range(len(self.Accounts)):
                 if(self.Accounts[i].username == rUsername):
                     print("Username already exist !")
                     return False;
 
-        newClient.RegisterClientAccount(rUsername)
-        self.Accounts.append(newClient)
+        newClient.RegisterClientAccount(rUsername) #Send username to client to get other informations
+
+        self.Accounts.append(newClient) #Add the client to accounts list
         return True
 
     def VerifyUsername(self, uname):
