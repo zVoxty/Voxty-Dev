@@ -7,7 +7,8 @@ AppVox::AppVox(QWidget *parent) : QMainWindow(parent)
 	connect(ui.exit, SIGNAL(clicked()), this, SLOT(exit()));
 	connect(ui.connectToServer, SIGNAL(clicked()), this, SLOT(ConnectBtn()));
 	connect(ui.disconnectToServer, SIGNAL(clicked()), this, SLOT(DisconnectBtn()));
-	connect(ui.submitText, SIGNAL(clicked()), this, SLOT(Submit()));
+	connect(ui.chatButton, SIGNAL(clicked()), this, SLOT(EnableChat()));
+	
 	
 	QFile file("css.txt");
 	file.open(QIODevice::ReadOnly);

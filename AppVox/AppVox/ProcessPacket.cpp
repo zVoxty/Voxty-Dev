@@ -12,9 +12,16 @@ bool AppVox::ProcessPacket(PacketType _packettype)
 				break;
 			}
 			case PacketType::AppName: {
-				if (!GetString(applicationName)) {
-					throw("Cannot get appName");
-				}
+				if (!GetString(applicationName))
+					throw("Cannot get appName");				
+				break;
+			}
+			case PacketType::ChatMessage:{
+				std::string message;
+				if (!GetString(message))
+					throw("Cannot get message");
+				QString qMessage = QString::fromStdString(message);
+				newChat->AppendText("vox", qMessage);
 				break;
 			}
 			//case PacketType::ChatMessage: //If packet is a chat message packet

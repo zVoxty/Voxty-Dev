@@ -25,15 +25,9 @@ void AppVox::DisconnectBtn()
 	ui.disconnectToServer->setDisabled(true);
 }
 
-void AppVox::Submit() {
-	QString x = ui.inputText->text();
-	ui.inputText->setText("");
-}
-
-void AppVox::InputText() {
-
-}
-
-void AppVox::PrintText() {
-
+void AppVox::EnableChat() {
+	if (isConnected)
+		newChat->exec();
+	else
+		MessageBoxA(NULL, "Connect first", "Error", MB_OK);
 }
