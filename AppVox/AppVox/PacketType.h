@@ -13,6 +13,7 @@ enum class PacketType
 	CantSetUsername, // Return can't set username 
 	ServerCurrentVersion, // Send server current version
 	ServerLastVersion, // Send server last version
+	AppName,
 	SetUsername // Try to set username received from user
 };
 

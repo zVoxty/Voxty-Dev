@@ -34,3 +34,63 @@ bool AppVox::GetPacketType(PacketType & _packettype) {
 
 	return true;//Return true if we were successful in retrieving the packet type
 }
+
+bool AppVox::GetString(std::string & _string)
+{
+	int32_t bufferlength; //Holds length of the message
+
+	if (!GetInt32_t(bufferlength)) //Get length of buffer and store it in variable: bufferlength
+		return false; //If get int fails, return false
+
+	if (bufferlength > 10000)
+		return false;
+
+	char * buffer = new char[bufferlength + 1]; //Allocate buffer
+
+	buffer[bufferlength] = '\0'; //Set last character of buffer to be a null terminator so we aren't printing memory that we shouldn't be looking at
+
+	if (!recvall(buffer, bufferlength)) //receive message and store the message in buffer array. If buffer fails to be received...
+	{
+		delete[] buffer; //delete buffer to prevent memory leak
+		return false; //return false: Fails to receive string buffer
+	}
+
+	_string = buffer; //set string to received buffer message
+
+	delete[] buffer; //Deallocate buffer memory (cleanup to prevent memory leak)
+
+	return true;//Return true if we were successful in retrieving the string
+}
+
+bool AppVox::sendall(char * data, int totalbytes)
+{
+	int bytessent = 0; //Holds the total bytes sent
+
+	while (bytessent < totalbytes) //While we still have more bytes to send
+	{
+		int RetnCheck = send(Connection, data + bytessent, totalbytes - bytessent, NULL); //Try to send remaining bytes
+
+		if (RetnCheck == SOCKET_ERROR) //If there is a socket error while trying to send bytes
+			return false; //Return false - failed to sendall
+
+		bytessent += RetnCheck; //Add to total bytes sent
+	}
+	return true; //Success!
+}
+
+bool AppVox::SendInt32_t(int32_t _int32_t)
+{
+	_int32_t = htonl(_int32_t);
+	if (!sendall((char*)&_int32_t, sizeof(int32_t))) //Try to send int... If int fails to send
+		return false; //Return false: int not successfully sent
+
+	return true; //Return true: int successfully sent
+}
+
+bool AppVox::SendPacketType(PacketType _packettype)
+{
+	if (!SendInt32_t((int32_t)_packettype)) //Try to send packet type... If packet type fails to send
+		return false; //Return false: packet type not successfully sent
+
+	return true; //Return true: packet type successfully sent
+}

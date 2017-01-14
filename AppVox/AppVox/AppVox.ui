@@ -14,26 +14,26 @@
    <string>AppVox</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QPushButton" name="exit">
+   <widget class="QLabel" name="connectionStatus">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>320</y>
-      <width>75</width>
-      <height>23</height>
+      <x>9</x>
+      <y>9</y>
+      <width>134</width>
+      <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>Exit</string>
+     <string>Connection : No Connection</string>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>170</y>
+      <x>510</x>
+      <y>260</y>
       <width>77</width>
-      <height>54</height>
+      <height>83</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
@@ -48,6 +48,35 @@
       <widget class="QPushButton" name="disconnectToServer">
        <property name="text">
         <string>Disconnect</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="exit">
+       <property name="text">
+        <string>Exit</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>280</y>
+      <width>216</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLineEdit" name="inputText"/>
+     </item>
+     <item>
+      <widget class="QPushButton" name="submitText">
+       <property name="text">
+        <string>Submit</string>
        </property>
       </widget>
      </item>

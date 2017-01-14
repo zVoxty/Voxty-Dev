@@ -9,8 +9,10 @@ void AppVox::ConnectBtn() {
 		MessageBoxA(NULL, "Error connection to server", "Error", MB_OK | MB_ICONERROR);
 		return;
 	}
+
 	ui.connectToServer->setDisabled(true);
 	ui.disconnectToServer->setDisabled(false);
+	
 }
 
 void AppVox::DisconnectBtn()
@@ -21,4 +23,17 @@ void AppVox::DisconnectBtn()
 	}
 	ui.connectToServer->setDisabled(false);
 	ui.disconnectToServer->setDisabled(true);
+}
+
+void AppVox::Submit() {
+	QString x = ui.inputText->text();
+	ui.inputText->setText("");
+}
+
+void AppVox::InputText() {
+
+}
+
+void AppVox::PrintText() {
+
 }
