@@ -1,6 +1,6 @@
-#include "AppVox.h"
+#include "Essentials.h"
 
-bool AppVox::recvall(char * data, int totalbytes)
+bool Essentials::recvall(char * data, int totalbytes)
 {
 	int bytesreceived = 0; //Holds the total bytes received
 
@@ -16,7 +16,7 @@ bool AppVox::recvall(char * data, int totalbytes)
 	return true; //Success!
 }
 
-bool AppVox::GetInt32_t(int32_t & _int32_t)
+bool Essentials::GetInt32_t(int32_t & _int32_t)
 {
 	if (!recvall((char*)&_int32_t, sizeof(int32_t))) //Try to receive int... If int fails to be recv'd
 		return false; //Return false: Int not successfully received
@@ -24,7 +24,7 @@ bool AppVox::GetInt32_t(int32_t & _int32_t)
 	return true;//Return true if we were successful in retrieving the int
 }
 
-bool AppVox::GetPacketType(PacketType & _packettype) {
+bool Essentials::GetPacketType(PacketType & _packettype) {
 	int packettype;
 
 	if (!GetInt32_t(packettype)) //Try to receive packet type... If packet type fails to be recv'd
@@ -35,7 +35,7 @@ bool AppVox::GetPacketType(PacketType & _packettype) {
 	return true;//Return true if we were successful in retrieving the packet type
 }
 
-bool AppVox::GetString(std::string & _string)
+bool Essentials::GetString(std::string & _string)
 {
 	int32_t bufferlength; //Holds length of the message
 
@@ -62,7 +62,7 @@ bool AppVox::GetString(std::string & _string)
 	return true;//Return true if we were successful in retrieving the string
 }
 
-bool AppVox::sendall(char * data, int totalbytes)
+bool Essentials::sendall(char * data, int totalbytes)
 {
 	int bytessent = 0; //Holds the total bytes sent
 
@@ -78,7 +78,7 @@ bool AppVox::sendall(char * data, int totalbytes)
 	return true; //Success!
 }
 
-bool AppVox::SendInt32_t(int32_t _int32_t)
+bool Essentials::SendInt32_t(int32_t _int32_t)
 {
 	_int32_t = htonl(_int32_t);
 	if (!sendall((char*)&_int32_t, sizeof(int32_t))) //Try to send int... If int fails to send
@@ -87,7 +87,7 @@ bool AppVox::SendInt32_t(int32_t _int32_t)
 	return true; //Return true: int successfully sent
 }
 
-bool AppVox::SendPacketType(PacketType _packettype)
+bool Essentials::SendPacketType(PacketType _packettype)
 {
 	if (!SendInt32_t((int32_t)_packettype)) //Try to send packet type... If packet type fails to send
 		return false; //Return false: packet type not successfully sent

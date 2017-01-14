@@ -41,6 +41,7 @@ public:
     {
         if (Chat->objectName().isEmpty())
             Chat->setObjectName(QStringLiteral("Chat"));
+        Chat->setWindowModality(Qt::NonModal);
         Chat->setEnabled(true);
         Chat->resize(385, 300);
         Chat->setMinimumSize(QSize(385, 300));
@@ -86,6 +87,9 @@ public:
 
         verticalLayout->addLayout(horizontalLayout);
 
+        QWidget::setTabOrder(submitText, inputText);
+        QWidget::setTabOrder(inputText, listWidget);
+        QWidget::setTabOrder(listWidget, textEdit);
 
         retranslateUi(Chat);
 

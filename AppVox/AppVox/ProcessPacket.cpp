@@ -1,6 +1,6 @@
-#include "AppVox.h"
+#include "Essentials.h"
 
-bool AppVox::ProcessPacket(PacketType _packettype)
+bool Essentials::ProcessPacket(PacketType _packettype)
 {	
 	try {
 		switch (_packettype)
@@ -16,14 +16,14 @@ bool AppVox::ProcessPacket(PacketType _packettype)
 					throw("Cannot get appName");				
 				break;
 			}
-			case PacketType::ChatMessage:{
+			/*case PacketType::ChatMessage:{
 				std::string message;
 				if (!GetString(message))
 					throw("Cannot get message");
 				QString qMessage = QString::fromStdString(message);
 				newChat->AppendText("vox", qMessage);
 				break;
-			}
+			}*/
 			//case PacketType::ChatMessage: //If packet is a chat message packet
 			//{
 			//	std::string Message; //string to store our message we received

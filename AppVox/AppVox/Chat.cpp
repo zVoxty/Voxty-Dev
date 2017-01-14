@@ -3,13 +3,14 @@
 Chat::Chat() {
 	myChat.setupUi(this);
 
-	this->connect(myChat.submitText, SIGNAL(clicked()), this, SLOT(Submit()));
+	connect(myChat.submitText, SIGNAL(clicked()), this, SLOT(Submit()));
 	myChat.textEdit->setReadOnly(true);
 	QListWidgetItem *item = new QListWidgetItem(QIcon("user.png"), "Test");
 	myChat.listWidget->addItem(item);
 }
 
 Chat::~Chat() {
+	
 }
 
 void Chat::AppendText(QString from, QString message)
@@ -29,6 +30,5 @@ void Chat::AppendText(QString from, QString message)
 void Chat::Submit() {
 	QString x = myChat.inputText->text();
 	AppendText("voxty", x);
-
 	myChat.inputText->clear();
 }

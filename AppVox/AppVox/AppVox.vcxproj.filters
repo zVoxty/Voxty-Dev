@@ -68,6 +68,9 @@
     <ClCompile Include="Chat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Essentials.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="AppVox.h">
@@ -95,6 +98,9 @@
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_Chat.h">
       <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Essentials.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

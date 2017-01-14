@@ -1,4 +1,5 @@
 #include "AppVox.h"
+#include "Chat.h"
 
 void AppVox::exit() {
 	QApplication::exit();
@@ -26,8 +27,6 @@ void AppVox::DisconnectBtn()
 }
 
 void AppVox::EnableChat() {
-	if (isConnected)
-		newChat->exec();
-	else
-		MessageBoxA(NULL, "Connect first", "Error", MB_OK);
+	chatDialog = new Chat;
+	chatDialog->show();
 }

@@ -1,16 +1,10 @@
 #ifndef CHAT_H
 #define CHAT_H
 
-#include "ui_Chat.h"
-#include <QTextTable>
-#include <QScrollBar>
-#include <QString>
+#include "AppVox.h"
 
-class AppVox;
-
-class Chat : public QDialog{
+class Chat : public QDialog, public Essentials{
 	Q_OBJECT
-	friend AppVox;
 public:
 	Chat();
 	~Chat();
