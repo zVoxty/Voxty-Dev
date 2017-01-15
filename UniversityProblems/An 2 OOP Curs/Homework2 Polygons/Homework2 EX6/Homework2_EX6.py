@@ -1,12 +1,15 @@
 from General import *
 import os
 
-if __name__ == "__main__":
-    speed(9)
-    pOn = True
-    gen = General()
-    gen.DrawContainer(200)
+if __name__ == "__main__": #Main function
+    speed(9)   #turtle speed
+    pOn = True   #application switch
+    gen = General()   #instance of general class
+    gen.DrawContainer(200)   # draw container on screen
+
+    # Homework requests
     while(pOn):
+        #Interface of program
         os.system("cls")
         print("\n\n\t\t Tema 2")
         print("1) Adaugarea si stergerea unor poligoane din container") #Done
@@ -20,7 +23,7 @@ if __name__ == "__main__":
 
         option = input("Insert option : ")
 
-        if(option == "1"):
+        if(option == "1"): #Add / delete section
             op2 = input("add / delete (x to go back) : ")
             if(op2 == "add"):
                 op3 = input("What to add (segment, triunghi, patrat, pentagon, hexagon) : ")
@@ -72,19 +75,19 @@ if __name__ == "__main__":
                 print("Wrong option")
                 os.system("pause")
             
-        elif(option == "2"):
+        elif(option == "2"): #Print content of container
             os.system("cls")
             print("\n\n\t\tPolygons in container")
             gen.printPolygons()
             os.system("pause")
-        elif(option == "3"):
+        elif(option == "3"): #Print content of container
             os.system("cls")
             print("\n\n\t\tPolygons in container")
             gen.printPolygons()
             os.system("pause")
         elif(option == "4"):
             os.system("pause")
-        elif(option == "5"):
+        elif(option == "5"): #Print polygon with minim perimeter
             gen.GetMinimPerimeterPolygon()
             os.system("pause")
         elif(option == "6"):
@@ -92,7 +95,7 @@ if __name__ == "__main__":
         elif(option == "7"):
             os.system("pause")
         elif(option == "8"):
-            gen.SortPolygonsByPerimeter()
+            gen.SortPolygonsByPerimeter() #Sort polygons by perimeter
             os.system("pause")
         else:
             print("Wrong option")

@@ -6,8 +6,9 @@ import random
 
 class General:
 
-    itemsInContainer = []
+    itemsInContainer = []   #list which contain type of polygons
 
+    #Just draw container turtle commands
     def DrawContainer(self,marimeContainer):
         pu()
         goto(-marimeContainer, marimeContainer)
@@ -18,6 +19,7 @@ class General:
         pu()
         goto(0,0)
 
+    #Get are of a polygon
     def GetArea(self, polygon):
         area = 0
         for i in range(len(polygon.points) - 1):
@@ -26,7 +28,8 @@ class General:
 
     def func(self):
         return self.itemsInContainer[0].polygonPerimeter < self.itemsInContainer[1].polygonPerimeter
-
+    
+    #Sort polygons by perimeter
     def SortPolygonsByPerimeter(self):
         print("Polygons before sort by perimeter")
         self.printPolygons()
@@ -36,6 +39,7 @@ class General:
         print("Polygons after sort by perimeter")
         self.printPolygons()
 
+    #From list of polygons get the polygon with minim perimeter
     def GetMinimPerimeterPolygon(self):
         min= 9999
         for i in range (len(self.itemsInContainer)):
@@ -45,16 +49,19 @@ class General:
             if(self.itemsInContainer[i].polygonPerimeter == min):
                 print("Poligonul cu perimetru minim este",self.itemsInContainer[i].polygonName,"cu perimetrul",self.itemsInContainer[i].polygonPerimeter)
 
+     #delete a polygon from container
     def DeleteFromContainer(self, polyName):
         for i in range (len(self.itemsInContainer)):
             if(self.itemsInContainer[i].polygonName == polyName):
                 self.itemsInContainer.remove(self.itemsInContainer[i])
                 break
-
+    
+    #show polygons in console
     def printPolygons(self):
         for i in range(len(self.itemsInContainer)):
             print(self.itemsInContainer[i].polygonName,",Aria :",self.itemsInContainer[i].polygonArea,",Perimetru :",self.itemsInContainer[i].polygonPerimeter)
-
+    
+    #Turtle # Draw a polygon
     def DrawPolygons(self, color, pName):
 
         pencolor(color)
@@ -71,41 +78,45 @@ class General:
                 break
             pu()
             goto(0,0)
-
+    
+     #Create polygon
     def CreatePolygon(self, n, side_length):
         pencolor("black")
         pu()
-        goto(random.randint(-100,100), random.randint(-100,100))
+        goto(random.randint(-100,100), random.randint(-100,100)) #go to random position in container
         pd()
 
+        #start tracking turtle pen
         begin_poly()
         for i in range(n):
             left(360/n)
             forward(side_length)
-        end_poly()
-        polygonX = get_poly()
+        end_poly() #stop tracking
+        polygonX = get_poly() #put all coords in a list
         pu()
         goto(0,0)
-        return polygonX
+        return polygonX #return the list with points
 
+    #Create a segment
     def SegmentX(self, marime):
-        poly = self.CreatePolygon(1, marime)
-        marime = int(marime/10)
-        polygonC = Polygon()
-        polygonC.polygonName = "segment"
-        polygonC.polygonArea = 0
-        polygonC.polygonPerimeter = marime * 1
+        poly = self.CreatePolygon(1, marime)  #create segment
+        marime = int(marime/10) #reduce the size  
+        polygonC = Polygon() #create an instance of polygon
+        polygonC.polygonName = "segment" #set name
+        polygonC.polygonArea = 0 #set area
+        polygonC.polygonPerimeter = marime * 1 #set perimeter
 
-        Point1 = Point(poly[0][0], poly[0][1])
-        Point1.pOwner = polygonC.polygonName
+        Point1 = Point(poly[0][0], poly[0][1]) #setpoint 1
+        Point1.pOwner = polygonC.polygonName 
 
-        Point2 = Point(poly[1][0], poly[1][1])
+        Point2 = Point(poly[1][0], poly[1][1]) #setpoint 2
         Point2.pOwner = polygonC.polygonName
 
-        polygonC.points.append(Point1)
-        polygonC.points.append(Point2)
-        self.itemsInContainer.append(polygonC)
+        polygonC.points.append(Point1) #append point to polygon
+        polygonC.points.append(Point2) #append point to polygon
+        self.itemsInContainer.append(polygonC) #append polygon to container 
     
+    #Create triangle same method as segment
     def TriunghiX(self, marime):
         
         poly = self.CreatePolygon(3, marime)
@@ -132,6 +143,7 @@ class General:
         polygonC.polygonArea = int(self.GetArea(polygonC))
         self.itemsInContainer.append(polygonC) 
     
+    #create square
     def PatratX(self, marime):
         
         poly = self.CreatePolygon(4, marime)
@@ -162,7 +174,7 @@ class General:
         polygonC.polygonArea = int(self.GetArea(polygonC))
 
         self.itemsInContainer.append(polygonC)
-
+    #create pentagon
     def PentagonX(self, marime):
    
         poly = self.CreatePolygon(5, marime)
@@ -197,7 +209,7 @@ class General:
         polygonC.polygonArea = int(self.GetArea(polygonC))
 
         self.itemsInContainer.append(polygonC)
-
+    #create hexagon
     def HexagonX(self, marime):       
         poly = self.CreatePolygon(6, marime)
         marime = int(marime/10)

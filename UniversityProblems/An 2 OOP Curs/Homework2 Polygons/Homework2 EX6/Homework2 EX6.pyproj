@@ -25,9 +25,6 @@
     <Compile Include="General.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="helpFunctions.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Homework2_EX6.py" />
     <Compile Include="Point.py">
       <SubType>Code</SubType>
