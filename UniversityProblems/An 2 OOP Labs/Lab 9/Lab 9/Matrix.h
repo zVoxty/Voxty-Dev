@@ -91,8 +91,8 @@ public:
 		return cout;
 	}
 
-	bool operator<(Matrix & anotherMatrix) {
-		return this->sum < anotherMatrix.sum;
+	friend bool operator<(Matrix & matrixOne, Matrix & matrixTwo) {
+		return matrixOne.sum < anotherMatrix.sum;
 	}
 
 	void CreateMatrix() {
